@@ -13,17 +13,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.newsappcompose.presentation.onboarding.OnBoardScreen
+import androidx.core.view.WindowCompat
+
+import com.example.newsappcompose.presentation.onboarding.OnBoardingScreen
 import com.example.newsappcompose.ui.theme.NewsAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // imagem fica do tamanhbo total pegando o actionbar
+        // tem que mudar no thema tbm
+        WindowCompat.setDecorFitsSystemWindows(window,false)
         installSplashScreen()
         setContent {
             NewsAppTheme{
                 Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    OnBoardScreen()
+                    OnBoardingScreen()
                 }
 
             }
