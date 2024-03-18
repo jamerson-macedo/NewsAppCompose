@@ -20,8 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.newsappcompose.presentation.Dimens.MediumPadding2
-import com.example.newsappcompose.presentation.Dimens.PageIndicatorWidth
 import com.example.newsappcompose.presentation.common.NewsButton
 import com.example.newsappcompose.presentation.common.NewsTextButton
 import com.example.newsappcompose.presentation.common.PageIndicator
@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnBoardingScreen() {
+fun OnBoardingScreen(event: (OnBoardingEvent) -> Unit) {
     Column(modifier = Modifier.fillMaxSize()) {
         // começa na pagina zero
         val pagerState = rememberPagerState(initialPage = 0) {
@@ -88,9 +88,10 @@ fun OnBoardingScreen() {
                     text = buttonsState.value[1],
                     onClick = {
                         scope.launch {
-                            if (pagerState.currentPage == 3){
+                            if (pagerState.currentPage == 2) {
                                 //Navigate to the main screen and save a value in datastore preferences
-                            }else{
+                                event(OnBoardingEvent.SaveAppEntry)
+                            } else {
                                 pagerState.animateScrollToPage(
                                     page = pagerState.currentPage + 1
                                 )
@@ -107,5 +108,8 @@ fun OnBoardingScreen() {
 @Preview
 @Composable
 private fun OnboardPreview() {
-    OnBoardingScreen()
+    val viewmodel:OnBoardingViewModel= hiltViewModel()
+    OnBoardingScreen(event = {
+        viewmodel.onEvent(it)
+    })
 }

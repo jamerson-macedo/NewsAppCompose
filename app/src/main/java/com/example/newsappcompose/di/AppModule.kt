@@ -20,7 +20,7 @@ object AppModule {
     fun providesLocalUserMenager(application: Application): LocalUserManager {
         return LocalUserManagerImpl(application)
     }
-
+// os casos de uso precisando do local manager
     @Provides
     @Singleton
     fun provideAppEntryUseCases(localUserManager: LocalUserManager) = AppEntryUseCases(
