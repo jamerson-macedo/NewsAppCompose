@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.lifecycleScope
 import com.example.newsappcompose.domain.usecase.AppEntryUseCases
-import com.example.newsappcompose.presentation.onboarding.OnBoardingScreen
-import com.example.newsappcompose.presentation.onboarding.OnBoardingViewModel
+import com.example.newsappcompose.presentation.nvgraph.NavGraph
 import com.example.newsappcompose.ui.theme.NewsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,6 +21,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    val viewmodel by viewModels<MainViewModel>()
+
     @Inject
     lateinit var useCases: AppEntryUseCases
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +37,15 @@ class MainActivity : ComponentActivity() {
         // imagem fica do tamanhbo total pegando o actionbar
         // tem que mudar no thema tbm
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition { viewmodel.splashCondition }
+        }
         setContent {
             NewsAppTheme {
                 Box(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    val viewmodel: OnBoardingViewModel = hiltViewModel()
-                    OnBoardingScreen(event = {
-                        viewmodel.onEvent(it)
-                    })
+                    val startDestination = viewmodel.startDestination
+                    NavGraph(startDestination = startDestination)
+
                 }
 
             }
