@@ -92,7 +92,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("androidx.compose.foundation:foundation:1.6.3")
 
-   // implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
 
     //Paging 3
     implementation("androidx.paging:paging-runtime:3.2.1")
