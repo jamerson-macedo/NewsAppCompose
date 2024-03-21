@@ -17,12 +17,14 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val useCases: AppEntryUseCases) : ViewModel() {
     var splashCondition by mutableStateOf(true)
         private set
+    // startnavigation
     var startDestination by mutableStateOf(Route.AppStartNavigation.route)
         private set
 
     init {
         useCases.readAppEntry().onEach {
             if (it) {
+                // se for verdadeiro vai pra pagina principal
                 startDestination = Route.NewsNavigation.route
             } else {
                 startDestination = Route.AppStartNavigation.route

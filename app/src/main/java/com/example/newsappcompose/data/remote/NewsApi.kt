@@ -9,6 +9,14 @@ interface NewsApi {
     suspend fun getNews(
         @Query("page") page: Int,
         @Query("sources") country: String,
-        @Query("apiKey") apiKey: String="40bf988aafb04ef49f9402e0a66f669a"
+        @Query("apiKey") apiKey: String = "40bf988aafb04ef49f9402e0a66f669a"
+    ): NewsResponse
+
+    @GET("everything")
+    suspend fun searchNews(
+        @Query("q") search: String,
+        @Query("page") page: Int,
+        @Query("sources") country: String,
+        @Query("apiKey") apiKey: String = "40bf988aafb04ef49f9402e0a66f669a"
     ): NewsResponse
 }

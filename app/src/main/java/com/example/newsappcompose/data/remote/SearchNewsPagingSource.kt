@@ -4,13 +4,14 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.newsappcompose.domain.model.Article
 
-class NewsPagingSource(private val api: NewsApi, val sources: String) :
+class SearchNewsPagingSource(
+    private val api: NewsApi,
+    val sources: String,
+    val search: String
+) :
     PagingSource<Int, Article>() {
     private var totalNews = 0
     override fun getRefreshKey(state: PagingState<Int, Article>): Int? {
-        // anchorposition é a ultima carregada
-        // se n for nulla
-
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
@@ -20,7 +21,7 @@ class NewsPagingSource(private val api: NewsApi, val sources: String) :
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val page = params.key ?: 1
         return try {
-            val newsResponse = api.getNews(country = sources, page = page)
+            val newsResponse = api.searchNews(country = sources, page = page, search = search)
             // tamanho da lista que vem da apu
             totalNews += newsResponse.articles.size
             // pegando artigos nao repitidos
@@ -38,4 +39,5 @@ class NewsPagingSource(private val api: NewsApi, val sources: String) :
 
         }
     }
+
 }

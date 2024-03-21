@@ -11,6 +11,7 @@ import com.example.newsappcompose.domain.usecase.app_entry.ReadAppEntry
 import com.example.newsappcompose.domain.usecase.app_entry.SaveAppEntry
 import com.example.newsappcompose.domain.usecase.news.GetNews
 import com.example.newsappcompose.domain.usecase.news.NewsUseCases
+import com.example.newsappcompose.domain.usecase.news.SearchNews
 import com.example.newsappcompose.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -53,6 +54,9 @@ object AppModule {
     @Provides
     @Singleton
     fun providesGetNewsUseCases(newsRepository: NewsRepository): NewsUseCases {
-        return NewsUseCases(getNews = GetNews(newsRepository))
+        return NewsUseCases(
+            getNews = GetNews(newsRepository),
+            searchNews = SearchNews(newsRepository)
+        )
     }
 }
